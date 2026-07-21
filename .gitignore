@@ -1,0 +1,14 @@
+# Progress OpenEdge / CSV temporary output files
+*.csv
+*.tmp
+*.log
+*.wrk
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# AI / Local agent state (optional)
+.gemini/
