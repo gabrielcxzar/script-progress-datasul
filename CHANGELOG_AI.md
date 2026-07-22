@@ -121,3 +121,13 @@ Este arquivo registra todas as alterações, manutenções, refatorações e cat
   - Padrão de Triggers de Banco de Dados (`WRITE`, `DELETE`, `CREATE`)
   - Padrão de Relatórios Batch (`*rp.p`)
 - **Documentos Atualizados**: `docs/TABLES.md`, `docs/QUERIES.md`, `docs/PATTERNS.md`, `docs/KNOWLEDGE_MAP.md`, `CHANGELOG_AI.md`.
+
+---
+
+## [1.0.8] - 2026-07-22 (Antigravity Agent)
+
+### Mapeamento e Catalogação dos Programas de Envio de E-mail (84 Programas)
+- **Identificação**: Mapeados os 84 programas específicos que executam rotinas de e-mail e notificações no ERP.
+- **Novo Documento**: [docs/EMAILS.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/EMAILS.md) — Separação completa por domínios (Automação/Ficha de Produção, Triggers Automáticas de Banco, UPCs/Pontos de Entrada, Compras/Supply Chain, Faturamento/Financeiro, Qualidade/Estimativas, Fluig/Integrações).
+- **Snippet Reutilizável**: Adicionado [Snippet 14: Envio de E-mail via API Datasul (utp/ut-mail.p)](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/SNIPPETS.md#14-envio-de-e-mail-via-api-datasul-utput-mailp) em `docs/SNIPPETS.md`.
+- **Documentos Atualizados**: `docs/EMAILS.md`, `docs/SNIPPETS.md`, `docs/KNOWLEDGE_MAP.md`, `CHANGELOG_AI.md`.

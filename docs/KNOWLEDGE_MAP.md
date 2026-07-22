@@ -16,6 +16,7 @@ Este é o **índice principal** da Base de Conhecimento Progress OpenEdge / TOTV
 | [📦 Estoque](#-estoque) | ✅ Ativo | 3 | Específicos (`ce`, `esp`) | `saldo-estoq`, `movto-estoq`, `deposito`, `grup-estoque` |
 | [🏪 Vendas / Faturamento](#-vendas--faturamento) | ✅ Ativo | 3 | Específicos (`pd`, `ft`) | `ped-venda`, `ped-item`, `nota-fiscal`, `natur-oper` |
 | [🤖 Automação de Processos](#-automação-de-processos) | ✅ Ativo | 2 | Específicos (`Automacao`) | `aut_op_param_processo`, `aut_ficha_prod`, `aut_mapa_ensac` |
+| [📧 Envio de E-mails / Notificações](#-envio-de-e-mails--notificações) | ✅ Ativo | 2 | 84 Programas | `utp/ut-mail.p`, `atpmailsock.p`, Triggers, UPCs |
 | [🔌 APIs e Integrações](#-apis-e-integrações) | ✅ Ativo | 2 | APIs (`PO-UI`) | `grp_usuar`, `distrib-emit-estab` |
 | [🔍 Consultas Gerais](#-consultas-gerais) | ✅ Ativo | 2 | 3 | `usuar_grp_usuar`, `segur_empres_usuar` |
 
@@ -127,8 +128,19 @@ Este é o **índice principal** da Base de Conhecimento Progress OpenEdge / TOTV
 
 ---
 
+## 📧 Envio de E-mails / Notificações
+
+**Descrição**: Catálogo completo dos 84 programas específicos que realizam envios automatizados de e-mail (alertas de qualidade, aprovações, relatórios fiscais, pendências de compras e laudos).
+
+### Documentos & Trechos
+- [docs/EMAILS.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/EMAILS.md) — Catálogo completo dos 84 programas com filtros por módulo e técnica
+- [Snippet 14 — Envio de E-mail via utp/ut-mail.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/SNIPPETS.md#14-envio-de-e-mail-via-api-datasul-utput-mailp)
+
+---
+
 ## 🛠️ Utilitários
 
 **Descrição**: Ferramentas, scripts auxiliares e rotinas de suporte técnico geral.
 
 > 🔄 **Domínio preparado para expansão.**
+

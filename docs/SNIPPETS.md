@@ -21,6 +21,7 @@ Esta biblioteca cataloga os trechos de código Progress ABL mais comuns e reutil
 11. [PROCEDURE — Estrutura Básica](#11-procedure--estrutura-básica)
 12. [FUNCTION — Estrutura Básica](#12-function--estrutura-básica)
 13. [Tratamento de Erros](#13-tratamento-de-erros)
+14. [Envio de E-mail via API Datasul (utp/ut-mail.p)](#14-envio-de-e-mail-via-api-datasul-utput-mailp)
 
 ---
 
@@ -323,3 +324,49 @@ IF ERROR-STATUS:ERROR THEN DO:
     MESSAGE "Erro na operação: " + ERROR-STATUS:GET-MESSAGE(1).
 END.
 ```
+
+---
+
+## 14. Envio de E-mail via API Datasul (`utp/ut-mail.p`)
+
+Padrão para envio de e-mails em rotinas batch, triggers ou programas customizados do Datasul.
+
+```progress
+DEFINE VARIABLE c-remetente    AS CHARACTER NO-UNDO.
+DEFINE VARIABLE c-destinatario AS CHARACTER NO-UNDO.
+DEFINE VARIABLE c-assunto      AS CHARACTER NO-UNDO.
+DEFINE VARIABLE c-arq-corpo    AS CHARACTER NO-UNDO.
+DEFINE VARIABLE c-arq-anexo    AS CHARACTER NO-UNDO.
+
+/* 1. Configura parâmetros */
+ASSIGN c-remetente    = "sistema.datasul@empresa.com.br"
+       c-destinatario = "gestor@empresa.com.br"
+       c-assunto      = "Aviso de Processamento - OP " + STRING(ord-prod.nr-ord-produ)
+       c-arq-corpo    = "V:\temp\corpo_email_" + STRING(TIME) + ".txt"
+       c-arq-anexo    = "". /* Ou caminho do PDF/CSV anexo */
+
+/* 2. Grava o texto do corpo da mensagem em arquivo temporário */
+OUTPUT TO VALUE(c-arq-corpo) NO-CONVERT.
+PUT UNFORMATTED "Prezado Gestor," SKIP(2).
+PUT UNFORMATTED "Informamos que a Ordem de Produção " ord-prod.nr-ord-produ " foi alterada." SKIP.
+PUT UNFORMATTED "Item: " item.it-codigo " - " item.descricao SKIP.
+PUT UNFORMATTED "Quantidade: " ord-prod.qt-planejada SKIP(2).
+PUT UNFORMATTED "Atenciosamente," SKIP.
+PUT UNFORMATTED "Equipe de Produção" SKIP.
+OUTPUT CLOSE.
+
+/* 3. Dispara o envio via API padrão utp/ut-mail.p */
+RUN utp/ut-mail.p (
+    INPUT c-remetente,
+    INPUT c-destinatario,
+    INPUT c-assunto,
+    INPUT c-arq-corpo,
+    INPUT c-arq-anexo
+).
+
+/* 4. Remove o arquivo temporário do corpo */
+OS-DELETE VALUE(c-arq-corpo).
+```
+
+*Extraído de*: [docs/EMAILS.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/EMAILS.md)
+
