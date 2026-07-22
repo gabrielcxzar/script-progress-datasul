@@ -8,20 +8,16 @@ Este é o **índice principal** da Base de Conhecimento Progress OpenEdge / TOTV
 
 ## 🗺️ Domínios Funcionais Mapeados
 
-| Domínio | Status | Documentos | Scripts | Tabelas |
+| Domínio | Status | Documentos | Scripts / Programas | Tabelas Principais |
 | :--- | :--- | :--- | :--- | :--- |
-| [🔐 Segurança / Framework](#-segurança--framework) | ✅ Ativo | 5 | 2 | 3 |
-| [🏢 Cadastros Globais](#-cadastros-globais) | 🔄 Preparado | — | — | — |
-| [💰 Financeiro](#-financeiro) | 🔄 Preparado | — | — | — |
-| [📋 Fiscal](#-fiscal) | 🔄 Preparado | — | — | — |
-| [🏭 Produção](#-produção) | 🔄 Preparado | — | — | — |
-| [📦 Estoque](#-estoque) | 🔄 Preparado | — | — | — |
-| [🛒 Compras](#-compras) | 🔄 Preparado | — | — | — |
-| [🏪 Vendas / Faturamento](#-vendas--faturamento) | 🔄 Preparado | — | — | — |
-| [🔌 APIs e Integrações](#-apis-e-integrações) | 🔄 Preparado | — | — | — |
-| [📊 Relatórios](#-relatórios) | 🔄 Preparado | — | — | — |
-| [🔍 Consultas Gerais](#-consultas-gerais) | ✅ Ativo | 1 | 2 | 3 |
-| [🛠️ Utilitários](#️-utilitários) | 🔄 Preparado | — | — | — |
+| [🔐 Segurança / Framework](#-segurança--framework) | ✅ Ativo | 5 | 3 | `usuar_mestre`, `usuar_mestre_aux`, `segur_empres_usuar`, `usuar_grp_usuar` |
+| [🏢 Cadastros Globais](#-cadastros-globais) | ✅ Ativo | 2 | Específicos (`cdp`) | `item`, `emitente`, `estabelec` |
+| [🏭 Produção](#-produção) | ✅ Ativo | 3 | Específicos (`cpp`, `bcp`, `esp`) | `ord-prod`, `movto-mat`, `lin-prod`, `estrutura` |
+| [📦 Estoque](#-estoque) | ✅ Ativo | 3 | Específicos (`ce`, `esp`) | `saldo-estoq`, `movto-estoq`, `deposito`, `grup-estoque` |
+| [🏪 Vendas / Faturamento](#-vendas--faturamento) | ✅ Ativo | 3 | Específicos (`pd`, `ft`) | `ped-venda`, `ped-item`, `nota-fiscal`, `natur-oper` |
+| [🤖 Automação de Processos](#-automação-de-processos) | ✅ Ativo | 2 | Específicos (`Automacao`) | `aut_op_param_processo`, `aut_ficha_prod`, `aut_mapa_ensac` |
+| [🔌 APIs e Integrações](#-apis-e-integrações) | ✅ Ativo | 2 | APIs (`PO-UI`) | `grp_usuar`, `distrib-emit-estab` |
+| [🔍 Consultas Gerais](#-consultas-gerais) | ✅ Ativo | 2 | 3 | `usuar_grp_usuar`, `segur_empres_usuar` |
 
 ---
 
@@ -40,83 +36,64 @@ Este é o **índice principal** da Base de Conhecimento Progress OpenEdge / TOTV
 - [scripts/consultas/listar_usuarios_por_empresa_ativos_datasul.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/consultas/listar_usuarios_por_empresa_ativos_datasul.p) — Lista filtrada por empresa
 - [scripts/consultas/grupo_msp_ativos_empresa_5.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/consultas/grupo_msp_ativos_empresa_5.p) — Usuários do grupo MSP ativos na empresa 5
 
-### Tabelas
-| Tabela | Descrição |
-| :--- | :--- |
-| `usuar_mestre` | Cadastro mestre de usuários |
-| `usuar_mestre_aux` | Status de ativação de usuários |
-| `segur_empres_usuar` | Vínculo usuário ↔ empresa |
-| `usuar_grp_usuar` | Vínculo grupo ↔ usuário |
-| `grp_usuar` | Cadastro/definição de grupos de usuários |
-| `distrib-emit-estab` | Configuração Distribuidor ↔ Emitente ↔ Estabelecimento |
-
-### Exemplos
-- [docs/EXAMPLES.md — Exemplo 1](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/EXAMPLES.md) — Exportação de usuários ativos por empresa (CSV)
-- [docs/EXAMPLES.md — Exemplo 2](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/EXAMPLES.md) — Exportação geral de usuários ativos (CSV)
-
-### Snippets Aplicáveis
-- [FOR EACH com JOIN via FIRST](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/SNIPPETS.md) — Padrão de junção das tabelas `usuar_mestre` e `usuar_mestre_aux`
-- [FOR EACH com Múltiplos Filtros OR](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/SNIPPETS.md) — Filtragem por múltiplas empresas em `segur_empres_usuar`
-
-### Observações
-- Os usuários são controlados por `usuar_mestre_aux.log_inativ`. `NO` = Ativo, `YES` = Inativo.
-- O modelo de segurança é multi-empresa: um usuário pode ter acesso a N empresas via `segur_empres_usuar`.
-
 ---
 
 ## 🏢 Cadastros Globais
 
-**Descrição**: Tabelas de cadastros básicos do Datasul (clientes, fornecedores, produtos, estabelecimentos, etc.).
+**Descrição**: Tabelas de cadastros básicos e parâmetros mestres do ERP Datasul (Clientes, Fornecedores, Itens, Estabelecimentos).
 
-> 🔄 **Domínio preparado para expansão.** Adicione scripts e tabelas conforme forem incorporados ao repositório.
-
----
-
-## 💰 Financeiro
-
-**Descrição**: Módulos de Contas a Pagar (APB), Contas a Receber (ACR), Caixa e Bancos (CMG).
-
-> 🔄 **Domínio preparado para expansão.**
-
----
-
-## 📋 Fiscal
-
-**Descrição**: Módulos de Movimentação Fiscal (MOF), Notas Fiscais (FT), SPED, GIA, etc.
-
-> 🔄 **Domínio preparado para expansão.**
+### Tabelas Mapeadas
+- [`item`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#item) — Cadastro Mestre de Produtos e Materiais
+- [`emitente`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#emitente) — Cadastro de Clientes, Fornecedores e Transportadores
+- [`estabelec`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#estabelec) — Cadastro de Filiais e Estabelecimentos
 
 ---
 
 ## 🏭 Produção
 
-**Descrição**: Módulos de Ordens de Produção, PCP, Apontamentos e Chão de Fábrica.
+**Descrição**: Módulos de Ordens de Produção, PCP, Escalonamento e Chão de Fábrica (`cpp`, `bcp`, `esp`).
 
-> 🔄 **Domínio preparado para expansão.**
+### Consultas & Tabelas
+- [`ord-prod`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#ord-prod) — Ordens de Produção
+- [`movto-mat`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#movto-mat) — Movimentação de Materiais na Produção
+- [Q-004 — Consultar Ordens de Produção Abertas](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/QUERIES.md#q-004)
 
 ---
 
 ## 📦 Estoque
 
-**Descrição**: Módulos de Gestão de Estoque, Transferências, Inventário, Almoxarifado e WMS.
+**Descrição**: Módulos de Gestão de Estoque, Saldos, Depósitos e Movimentações (`ce`, `esp`).
 
-> 🔄 **Domínio preparado para expansão.**
-
----
-
-## 🛒 Compras
-
-**Descrição**: Módulos de Solicitação, Cotação, Pedido de Compra e Recebimento de Mercadorias.
-
-> 🔄 **Domínio preparado para expansão.**
+### Consultas & Tabelas
+- [`saldo-estoq`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#saldo-estoq) — Saldos por Item, Depósito, Localização e Lote
+- [`movto-estoq`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#movto-estoq) — Movimentações Históricas de Estoque
+- [`deposito`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#deposito) — Depósitos de Armazenamento
+- [Q-005 — Consultar Saldo Físico e Alocado](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/QUERIES.md#q-005)
+- [Q-006 — Histórico de Movimentações por Período](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/QUERIES.md#q-006)
 
 ---
 
 ## 🏪 Vendas / Faturamento
 
-**Descrição**: Módulos de Pedidos de Venda, Faturamento, Expedição e Comissões.
+**Descrição**: Módulos de Pedidos de Venda, Faturamento, Notas Fiscais (`pd`, `ft`, `esp`).
 
-> 🔄 **Domínio preparado para expansão.**
+### Consultas & Tabelas
+- [`ped-venda`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#ped-venda) — Pedidos de Venda
+- [`ped-item`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#ped-item) — Itens do Pedido de Venda
+- [`nota-fiscal`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#nota-fiscal) — Notas Fiscais
+- [Q-007 — Carteira de Pedidos de Venda Abertos](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/QUERIES.md#q-007)
+
+---
+
+## 🤖 Automação de Processos
+
+**Descrição**: Módulo específico de Automação industrial, Fichas de Produção e Mapas de Ensacamento (`Automacao`).
+
+### Tabelas Mapeadas
+- [`aut_op_param_processo`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#aut_op_param_processo) — Parâmetros de Processo da OP
+- [`aut_ficha_prod`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#aut_ficha_prod) — Ficha Técnica de Produção
+- [`aut_mapa_ensac`](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md#aut_mapa_ensac) — Mapa de Ensacamento Final
+
 
 ---
 

@@ -98,3 +98,26 @@ Este arquivo registra todas as alterações, manutenções, refatorações e cat
   - `grp_usuar` (definição de grupos de usuários)
   - `distrib-emit-estab` (relações de distribuidor/emitente/estabelecimento)
 - **Documentos Atualizados**: `docs/TABLES.md`, `docs/APIS.md`, `docs/KNOWLEDGE_MAP.md`, `CHANGELOG_AI.md`.
+
+---
+
+## [1.0.7] - 2026-07-22 (Antigravity Agent)
+
+### Ingestão Massiva do Conhecimento da Pasta de Específicos (2.716 arquivos Progress ABL)
+- **Origem**: Varredura e análise de 2.716 arquivos Progress (`.p`, `.i`, `.w`) distribuídos em 49 subdiretórios na pasta `C:\Users\Dan13\OneDrive\Documentos\Projetos dev\Documentação de esp\Workspace\especificos\p`.
+- **14 Novas Tabelas Catalogadas em TABLES.md**:
+  - Manufatura / PCP: `ord-prod`, `movto-mat`
+  - Cadastros Globais: `item`, `emitente`, `estabelec`
+  - Estoque / Materiais: `saldo-estoq`, `movto-estoq`, `deposito`
+  - Vendas / Faturamento: `ped-venda`, `ped-item`, `nota-fiscal`
+  - Automação de Processos: `aut_op_param_processo`, `aut_ficha_prod`, `aut_mapa_ensac`
+- **4 Novas Consultas Catalogadas em QUERIES.md**:
+  - `Q-004`: Ordens de Produção Abertas / Planejadas por Estabelecimento
+  - `Q-005`: Saldo Físico e Alocado por Item e Depósito
+  - `Q-006`: Histórico de Movimentações de Estoque por Período
+  - `Q-007`: Carteira de Pedidos de Venda Abertos com Itens
+- **Padrões de Arquitetura em PATTERNS.md**:
+  - Padrão UPC (User Program Calls / Pontos de Entrada Datasul)
+  - Padrão de Triggers de Banco de Dados (`WRITE`, `DELETE`, `CREATE`)
+  - Padrão de Relatórios Batch (`*rp.p`)
+- **Documentos Atualizados**: `docs/TABLES.md`, `docs/QUERIES.md`, `docs/PATTERNS.md`, `docs/KNOWLEDGE_MAP.md`, `CHANGELOG_AI.md`.
