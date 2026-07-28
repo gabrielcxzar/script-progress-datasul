@@ -4,6 +4,38 @@ Este arquivo registra todas as alterações, manutenções, refatorações e cat
 
 ---
 
+## [1.1.1] - 2026-07-28 (Antigravity Agent)
+
+### Ajuste Fino de Layout e Sensibilidade da UPC CD0201
+- **Sensibilidade Inicial**: Ajustado para que o campo inicie **desabilitado** (`SENSITIVE = NO`) ao abrir o programa e durante a consulta. Habilita (`SENSITIVE = YES`) estritamente nos eventos de edição/inclusão (`ENABLE`, `ADD`, `MODIFY`).
+- **Dimensão do Campo**: Reduzida a largura da caixa de texto para `WIDTH = 2.5` (proporcional a 1 caractere alfanumérico).
+- **Alinhamento Visual**: Reposicionado o rótulo `"EMG Code:"` com `AUTO-RESIZE = YES` e aproximação direta à esquerda da caixa de texto, eliminando o espaçamento excessivo.
+- **Consolidação na Memória de IA**: Salvas todas as novas convenções em [.ai/AI_CONVENTIONS.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/.ai/AI_CONVENTIONS.md) e [.ai/MEMORY.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/.ai/MEMORY.md), assegurando acesso imediato para agentes de IA em interações futuras.
+- **Atualização do Catálogo de Tabelas**: Adicionada a tabela `grup-estoque` (`mgemp`) em [docs/TABLES.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md) com especificação do campo `char-2` (posição 80 = `EMG Code`) e vínculo com o fonte `upc/upc-cd0201.p`.
+- **Fontes Atualizados**:
+  - [upc/upc-cd0201.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/upc/upc-cd0201.p)
+  - `C:\temp\upload\upc\upc-cd0201.p` e `temp/upc/upc-cd0201.p`
+
+---
+
+## [1.1.0] - 2026-07-28 (Antigravity Agent)
+
+### Nova UPC: CD0201 e Aprendizado de Padrões da Base Real
+- **Análise de Fontes Reais**: Ingerido e catalogado o conhecimento de 30 arquivos de UPC reais em `C:\Users\Dan13\OneDrive\Documentos\Projetos dev\Documentação de esp\Workspace\especificos\p\upc`.
+- **Registro de Convenções**:
+  - Mapeadas as assinaturas oficiais de 6 parâmetros para telas GUI (SmartWindows/Viewers) e 2 parâmetros para DBO/APIs (`tt-epc`).
+  - Atualizado [docs/PATTERNS.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/PATTERNS.md) com os 3 padrões catalogados (GUI 6-params, DBO 2-params, Dispatcher por empresa).
+  - Atualizado [.ai/AI_CONVENTIONS.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/.ai/AI_CONVENTIONS.md) para assegurar o uso automático desses padrões em futuras solicitações.
+- **Fontes Gerados para Deploy**:
+  - [upc/upc-cd0201.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/upc/upc-cd0201.p) — Repositório oficial do projeto.
+  - `C:\temp\upload\upc-cd0201.p` e `C:\temp\upload\upc\upc-cd0201.p` — Gerados no diretório temporário para upload no ERP.
+- **Regras de Negócio**:
+  - Campo `EMG Code` (1 caractere alfanumérico, sem valor padrão inicial) posicionado ao lado da descrição.
+  - Manipulação exata da posição 80 no campo livre `grup-estoque.char2` (`mgemp`) via `SUBSTRING` e `OVERLAY`.
+
+---
+
+
 ## [1.0.0] - 2026-07-20 (Antigravity Agent)
 
 ### Inicialização e Transformação da Base de Conhecimento

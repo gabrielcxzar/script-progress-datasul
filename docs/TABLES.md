@@ -34,6 +34,7 @@ Este documento DEVE ser atualizado sempre que novos scripts forem adicionados e 
 | [aut_op_param_processo](#aut_op_param_processo) | Automação / Ficha Prod. | Parâmetros de Processo por Ordem de Produção ✅ | Específicos |
 | [aut_ficha_prod](#aut_ficha_prod) | Automação / Ficha Prod. | Cabeçalho da Ficha de Produção ✅ | Específicos |
 | [aut_mapa_ensac](#aut_mapa_ensac) | Automação / Ficha Prod. | Mapa de Ensacamento de Produção ✅ | Específicos |
+| [grup-estoque](#grup-estoque) | Estoque / Cadastros | Cadastro de Grupo de Estoque (`mgemp`) ✅ | `upc-cd0201.p` |
 
 ---
 
@@ -287,6 +288,31 @@ Manufatura / Estoque / Engenharia (`cdp`)
 | `aliquota-ipi` | Decimal | Alíquota de IPI (%) ✅ |
 | `aliquota-iss` | Decimal | Alíquota de ISS (%) ✅ |
 | `contr-qualid` | Logical | Requer controle de qualidade / CQ (`YES`/`NO`) ✅ |
+
+---
+
+## <a name="grup-estoque"></a>🗃️ grup-estoque ✅
+
+### Descrição
+Tabela de cadastro mestre de Grupos de Estoque do ERP TOTVS Datasul. Armazena o código do grupo, descrição e campos genéricos de extensão customizada.
+
+> **Banco**: `mgemp`  
+> **Programa Padrão Associado**: `CD0201`  
+> **UPC Associada**: [upc/upc-cd0201.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/upc/upc-cd0201.p)
+
+### Módulo
+Estoque / Cadastros de Materiais (`cdp`)
+
+### Campos Confirmados
+
+| Campo | Tipo | Descrição |
+| :--- | :--- | :--- |
+| `cod-grupo` | Integer | Código único do Grupo de Estoque (Chave Primária) ✅ |
+| `descricao` | Character | Descrição do Grupo de Estoque ✅ |
+| `char-2` | Character | Campo genérico/livre livre uso. Posição 80 utilizada para armazenar o `EMG Code` (1 caractere) ✅ |
+
+### UPCs / Scripts que Utilizam Esta Tabela
+- [upc/upc-cd0201.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/upc/upc-cd0201.p) — Customização da tela do programa `CD0201` com `EMG Code` na posição 80 do `char-2`.
 
 ---
 

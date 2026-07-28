@@ -62,25 +62,80 @@ FOR EACH tabela_relacional NO-LOCK
 
 ## 🛠️ 4. Padrão UPC (User Program Calls / Pontos de Entrada)
 
-### Estrutura Padrão
 O padrão **UPC** é o mecanismo oficial do TOTVS Datasul para estender ou alterar o comportamento de programas padrão do ERP sem modificar os fontes originais da TOTVS.
 
+### Assinaturas Padrão Catalogadas na Base Real (`/p/upc`)
+
+#### 1. Interface GUI SmartWindow / Viewer / Cadastro (6 Parâmetros)
+Utilizada em programas mestres de cadastro e telas com interface gráfica (ex: `CD0201`, `CD0204`, `CD0640`, `CD4010`, `CE9700`):
+
 ```progress
-/* Exemplo de estrutura em upc/upc_nome_programa.p */
-{include/i-epc200.i} /* Includes de infraestrutura EPC/UPC */
+/* Assinatura oficial de 6 parâmetros para UPCs de Tela GUI */
+DEFINE INPUT PARAMETER p-ind-event  AS CHARACTER     NO-UNDO.
+DEFINE INPUT PARAMETER p-ind-object AS CHARACTER     NO-UNDO.
+DEFINE INPUT PARAMETER p-wgh-object AS HANDLE        NO-UNDO.
+DEFINE INPUT PARAMETER p-wgh-frame  AS WIDGET-HANDLE NO-UNDO.
+DEFINE INPUT PARAMETER p-cod-table  AS CHARACTER     NO-UNDO.
+DEFINE INPUT PARAMETER p-row-table  AS ROWID         NO-UNDO.
+
+/* Handles globais para retenção dos elementos dinâmicos da tela */
+DEFINE NEW GLOBAL SHARED VARIABLE ghanIdEMGCode  AS HANDLE NO-UNDO.
+DEFINE NEW GLOBAL SHARED VARIABLE ghanLblEMGCode AS HANDLE NO-UNDO.
+
+CASE p-ind-event:
+    WHEN "INITIALIZE" OR WHEN "AFTER-INITIALIZE" THEN DO:
+        /* Criação Dinâmica dos Widgets no Frame (necessário para que o campo apareça visualmente) */
+        IF VALID-HANDLE(p-wgh-frame) AND NOT VALID-HANDLE(ghanIdEMGCode) THEN DO:
+            CREATE TEXT ghanLblEMGCode
+            ASSIGN FRAME        = p-wgh-frame
+                   DATA-TYPE    = "character":U
+                   SCREEN-VALUE = "EMG Code:":U.
+
+            CREATE FILL-IN ghanIdEMGCode
+            ASSIGN FRAME        = p-wgh-frame
+                   DATA-TYPE    = "character":U
+                   FORMAT       = "X":U
+                   SENSITIVE    = YES
+                   VISIBLE      = YES.
+        END.
+    END.
+
+    WHEN "AFTER-FIND" OR WHEN "DISPLAY" THEN DO:
+        /* Carrega dados e exibe no widget ghanIdEMGCode:SCREEN-VALUE */
+    END.
+
+    WHEN "BEFORE-UPDATE" OR WHEN "ASSIGN" THEN DO:
+        /* Lê a entrada de ghanIdEMGCode:SCREEN-VALUE e grava no banco */
+    END.
+END CASE.
+```
+
+#### 2. DBO / APIs de Negócio (2 Parâmetros + Temp-Table `tt-epc`)
+Utilizada em programas de lógica de negócios, DBOs e relatórios (ex: `BOSC070`, `BOSC076`, `MLAAPI001`, `RE1005RP`):
+
+```progress
+{include/i-epc200.i1}
+{utp/ut-glob.i}
 
 DEFINE INPUT PARAMETER p-ind-event AS CHARACTER NO-UNDO.
-DEFINE INPUT PARAMETER p-ind-object AS HANDLE    NO-UNDO.
+DEFINE INPUT-OUTPUT PARAMETER TABLE FOR tt-epc.
 
-IF p-ind-event = "AFTER-FIND" THEN DO:
-    /* Lógica customizada executada imediatamente após o FIND do programa padrão */
-END.
-ELSE IF p-ind-event = "BEFORE-UPDATE" THEN DO:
-    /* Lógica de validação customizada antes da gravação */
+IF p-ind-event = "afterUpdateRecord" THEN DO:
+    /* Tratamento de regras de DBO/API */
 END.
 ```
 
-* **Localização no repositório específico**: `upc/`
+#### 3. Padrão Roteador/Dispatcher por Empresa
+Em ambientes multi-empresa com comportamentos distintos por planta (ex: `upc-cd0204.p`), a UPC principal roteia para sub-UPCs de empresa (ex: `-mso`, `-pdo`, `-suo`):
+
+```progress
+IF v_cod_empres_usuar = "6" THEN
+    RUN upc/upc-cd0204-mso.p (p-ind-event, p-ind-object, p-wgh-object, p-wgh-frame, p-cod-table, p-row-table).
+ELSE IF v_cod_empres_usuar = "2" THEN
+    RUN upc/upc-cd0204-pdo.p (p-ind-event, p-ind-object, p-wgh-object, p-wgh-frame, p-cod-table, p-row-table).
+```
+
+* **Localização no repositório**: `upc/` (desenvolvimento) e `C:\temp\upload\` (deploy).
 * **Vantagens**: Preserva a integridade dos fontes padrão do Datasul durante atualizações de versão (release) do ERP.
 
 ---

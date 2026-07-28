@@ -27,3 +27,10 @@ Este arquivo armazena **apenas conhecimento técnico permanente** acumulado sobr
 - **Produção**: `Z:\Gnaritas\temp\`
 - **Teste / Quality**: `V:\temp\`
 - Todos os scripts de consulta com saída de arquivo devem obrigatoriamente perguntar o ambiente via `MESSAGE ... VIEW-AS ALERT-BOX QUESTION BUTTONS YES-NO` e usar `OUTPUT STREAM arq TO VALUE(c_caminho)` para definir o caminho dinamicamente.
+
+### 5. Regras de Desenvolvimento de UPCs e Campos Livres Datasul
+- **Criação de Campos em Tela GUI**: Para exibir um campo customizado no programa padrão (ex: `CD0201`), deve-se instanciar o widget via `CREATE FILL-IN` e `CREATE TEXT` no evento `INITIALIZE` / `AFTER-INITIALIZE` no `p-wgh-frame`.
+- **Sensibilidade em Consulta**: Na inicialização e nos eventos de exibição (`AFTER-FIND` / `DISPLAY`), o campo DEVE ser criado com `SENSITIVE = NO`. Só habilita (`SENSITIVE = YES`) quando o usuário aciona alteração/inclusão (`ENABLE`, `ADD`, `MODIFY`).
+- **Campos Livres Genéricos (Tabela `grup-estoque`)**: O campo livre da tabela `grup-estoque` no banco `mgemp` é nomeado com hífen: `char-2`. A leitura da posição 80 utiliza `SUBSTRING(grup-estoque.char-2, 80, 1)` e a alteração utiliza `OVERLAY(grup-estoque.char-2, 80, 1)`.
+- **Estrutura de Diretório**: Arquivos de UPC devem ficar sempre dentro da pasta `upc\` (ex: `upc/upc-cd0201.p` ou `C:\temp\upload\upc\upc-cd0201.p`).
+
