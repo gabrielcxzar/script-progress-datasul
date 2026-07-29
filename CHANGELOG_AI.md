@@ -4,6 +4,15 @@ Este arquivo registra todas as alterações, manutenções, refatorações e cat
 
 ---
 
+## [1.2.0] - 2026-07-28 (Antigravity Agent)
+
+### Nova UPC: UTB011AA (Manutenção Unidade de Negócio - Financeiro)
+- **Implementação do Campo EMG Code**: Criado o campo Fill-in de 1 caractere (emg_code) ao lado do campo Espécie UN (_ind_espec_unid_negoc).
+- **Integração com Tabela de Extensão**: Mapeado leitura a partir da tabela de extensão es_unid_negoc (campo emg_code), mantendo o padrão da base.
+- **Conformidade de Deploy**: Salvo no diretório correto de UPC [upc/upc-utb011aa.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/upc/upc-utb011aa.p).
+
+---
+
 ## [1.1.1] - 2026-07-28 (Antigravity Agent)
 
 ### Ajuste Fino de Layout e Sensibilidade da UPC CD0201

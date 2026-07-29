@@ -631,3 +631,9 @@ Automação de Produção / Logística (`Automacao`)
 | `qt-ensacada` | Decimal | Quantidade total de sacos/embalagens produzidas ✅ |
 | `dt-ensacamento` | Date | Data e hora de execução do ensacamento ✅ |
 
+
+### es_unid_negoc
+- **Módulo**: UTB / Financeiro (Tabela de Extensão de Unidade de Negócio)
+- **Descrição**: Tabela de extensão específica da unid_negoc para gravação de Divisão SAP e EMG Code.
+- **Campos Relevantes**: cod_unid_negoc, id_divisao_sap, desc_divisao_sap, cod_grp_div_sap, emg_code
+- **Script Relacionado**: [upc/upc-utb011aa.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/upc/upc-utb011aa.p)

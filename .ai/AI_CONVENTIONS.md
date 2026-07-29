@@ -2,6 +2,12 @@
 
 Qualquer agente de Inteligência Artificial que trabalhe neste repositório deve **cumprir rigorosamente** o conjunto de regras abaixo.
 
+
+
+> [!CRITICAL]
+> **CHECKLIST OBRIGATÓRIO DE INICIALIZAÇÃO DA IA**:
+> Toda vez que receber um comando ou tarefa neste repositório, a PRIMEIRA AÇÃO ANTES de criar ou copiar qualquer arquivo é verificar este documento e validar o diretório de destino (ex: arquivos UPC DEVEM ficar obrigatoriamente dentro da pasta upc/).
+
 ---
 
 ## ⛔ 1. Proibição Absoluta de Duplicação e Alucinação

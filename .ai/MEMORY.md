@@ -34,3 +34,8 @@ Este arquivo armazena **apenas conhecimento técnico permanente** acumulado sobr
 - **Campos Livres Genéricos (Tabela `grup-estoque`)**: O campo livre da tabela `grup-estoque` no banco `mgemp` é nomeado com hífen: `char-2`. A leitura da posição 80 utiliza `SUBSTRING(grup-estoque.char-2, 80, 1)` e a alteração utiliza `OVERLAY(grup-estoque.char-2, 80, 1)`.
 - **Estrutura de Diretório**: Arquivos de UPC devem ficar sempre dentro da pasta `upc\` (ex: `upc/upc-cd0201.p` ou `C:\temp\upload\upc\upc-cd0201.p`).
 
+
+### 6. Protocolo de Inicialização Obrigatório para Agentes de IA
+- **Primeira Ação Mandatória**: Antes de criar, copiar ou modificar qualquer arquivo, o agente DEVE consultar [.ai/AI_CONVENTIONS.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/.ai/AI_CONVENTIONS.md).
+- **Validação de Estrutura de Pastas**: Nenhum arquivo de script ou UPC pode ser criado na raiz; deve-se obrigatoriamente verificar e respeitar o diretório de destino padronizado (upc/, scripts/consultas/, scripts/utilitarios/, etc.).
+- **Execução do Checklist**: Verificar convenções de nomenclatura, parâmetros de entrada, sensibilidade de campos (SENSITIVE = NO) e pós-atualização de documentação (CHANGELOG_AI.md, docs/TABLES.md).
