@@ -78,6 +78,62 @@ Sempre que um novo script de consulta for adicionado ao repositório, uma entrad
 
 ---
 
+### M-001 — Reativar Usuário Inativo no DataSul (Interativo)
+
+* **Quando Usar**: Para reativar um usuário inativado no ERP Datasul ou alterar a data limite de validade de seu login.
+* **Modo de Operação**: Interativo (solicita `cod_usuario` via Frame `f` e permite atualizar `usuar_mestre_aux.log_inativ` e `usuar_mestre.dat_fim_valid` no Frame `f2`).
+* **Tabelas**: `usuar_mestre`, `usuar_mestre_aux`
+* **Script**: [scripts/manutenção/reativar_usuario_datasul.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/manuten%C3%A7%C3%A3o/reativar_usuario_datasul.p)
+* **Lógica Principal**:
+  ```progress
+  Prompt-for usuar_mestre.cod_usuario
+    With Frame f.
+
+  Find usuar_mestre
+      Where usuar_mestre.cod_usuario = Input Frame f usuar_mestre.cod_usuario.
+
+  Find usuar_mestre_aux
+       Where usuar_mestre_aux.cod_usuario = Input Frame f usuar_mestre.cod_usuario.
+
+  Update usuar_mestre_aux.log_inativ
+         usuar_mestre.dat_fim_valid
+         With 1 Column Frame f2.
+  ```
+
+---
+
+### M-002 — Inativar Lista de Usuários e Limpar E-mail Local (Batch / Lote)
+
+* **Quando Usar**: Para inativar em lote uma lista predefinida de usuários no Datasul, limpando previamente o campo `cod_e_mail_local`, ajustando a validade (`dat_fim_valid = TODAY`) e atualizando a data/hora da última alteração (`dtm_ult_atualiz_usuar = NOW`).
+* **Modo de Operação**: Batch automatizado via `TEMP-TABLE` com diálogo inicial para seleção de ambiente (Produção ou Teste) e emissão de arquivo de log CSV de execução.
+* **Tabelas**: `usuar_mestre`, `usuar_mestre_aux`
+* **Script**: [scripts/manutenção/inativar_usuarios_lista.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/manuten%C3%A7%C3%A3o/inativar_usuarios_lista.p)
+* **Lógica Principal**:
+  ```progress
+  FOR EACH tt_usuario NO-LOCK:
+      FIND FIRST usuar_mestre EXCLUSIVE-LOCK
+           WHERE usuar_mestre.cod_usuario = tt_usuario.cod_usuario NO-ERROR.
+      FIND FIRST usuar_mestre_aux EXCLUSIVE-LOCK
+           WHERE usuar_mestre_aux.cod_usuario = tt_usuario.cod_usuario NO-ERROR.
+
+      IF AVAILABLE usuar_mestre AND AVAILABLE usuar_mestre_aux THEN DO:
+          IF usuar_mestre_aux.log_inativ = NO THEN DO:
+              /* Usuário ATIVO: Inativa hoje e atualiza a data/hora no sec000aa */
+              ASSIGN usuar_mestre.cod_e_mail_local          = ""
+                     usuar_mestre.dat_fim_valid             = TODAY
+                     usuar_mestre_aux.log_inativ            = YES
+                     usuar_mestre_aux.dtm_ult_atualiz_usuar = NOW.
+          END.
+          ELSE DO:
+              /* JÁ INATIVO: Apenas limpa e-mail preservando a data de inativação original */
+              ASSIGN usuar_mestre.cod_e_mail_local = "".
+          END.
+      END.
+  END.
+  ```
+
+---
+
 ## 🏭 Domínio: Manufatura / Produção (PCP)
 
 ### Q-004 — Consultar Ordens de Produção Abertas/Planejadas por Estabelecimento

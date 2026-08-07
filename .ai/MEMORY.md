@@ -7,8 +7,9 @@ Este arquivo armazena **apenas conhecimento técnico permanente** acumulado sobr
 ## 🏛️ Conhecimentos Consolidados
 
 ### 1. Framework de Segurança e Usuários no TOTVS Datasul
-- `usuar_mestre`: Tabela central do cadastro de usuários do ERP Datasul. Contém dados fundamentais como `cod_usuario`, `nom_usuario`, `cod_e_mail_local`, `cod_e_mail_celular`.
-- `usuar_mestre_aux`: Tabela complementar que controla a situação do usuário. O campo `log_inativ` (lógico: `YES`/`NO`) determina se o usuário está inativo no sistema.
+- `usuar_mestre`: Tabela central do cadastro de usuários do ERP Datasul. Contém dados fundamentais como `cod_usuario`, `nom_usuario`, `cod_e_mail_local`, `cod_e_mail_celular`, e o campo de validade do login `dat_fim_valid`.
+- `usuar_mestre_aux`: Tabela complementar que controla a situação do usuário. O campo `log_inativ` (lógico: `YES`/`NO`) determina se o usuário está inativo no sistema (`YES` = inativo, `NO` = ativo) e o campo `dtm_ult_atualiz_usuar` (datetime) armazena a data/hora exata da alteração/inativação exibida no programa `sec000aa`.
+- **Reativação / Inativação de Usuário**: Na inativação em lote, atualiza-se `usuar_mestre.cod_e_mail_local = ""`, `usuar_mestre.dat_fim_valid = TODAY`, `usuar_mestre_aux.log_inativ = YES` e `usuar_mestre_aux.dtm_ult_atualiz_usuar = NOW` (script [scripts/manutenção/inativar_usuarios_lista.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/manuten%C3%A7%C3%A3o/inativar_usuarios_lista.p)).
 - `segur_empres_usuar`: Tabela de vinculo de segurança indicando a quais empresas (`cod_empresa`) cada usuário (`cod_usuario`) possui permissão de acesso.
 
 ### 2. Padrões de Exportação Progress 4GL / ABL

@@ -29,13 +29,17 @@ Este é o **índice principal** da Base de Conhecimento Progress OpenEdge / TOTV
 ### Documentos Relacionados
 - [docs/DATABASE.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/DATABASE.md) — Convenções de banco e relacionamentos
 - [docs/TABLES.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/TABLES.md) — Catálogo completo das tabelas deste módulo
-- [docs/QUERIES.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/QUERIES.md) — Q-001, Q-002, Q-003
+- [docs/QUERIES.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/QUERIES.md) — Q-001, Q-002, Q-003, M-001, M-002
 - [docs/APIS.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/APIS.md) — Catálogo de APIs PO-UI / THF (API-001, API-002)
 
 ### Scripts Relacionados
 - [scripts/consultas/listar_usuarios_ativos_datasul.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/consultas/listar_usuarios_ativos_datasul.p) — Lista geral de usuários ativos
 - [scripts/consultas/listar_usuarios_por_empresa_ativos_datasul.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/consultas/listar_usuarios_por_empresa_ativos_datasul.p) — Lista filtrada por empresa
 - [scripts/consultas/grupo_msp_ativos_empresa_5.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/consultas/grupo_msp_ativos_empresa_5.p) — Usuários do grupo MSP ativos na empresa 5
+- [scripts/manutenção/reativar_usuario_datasul.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/manuten%C3%A7%C3%A3o/reativar_usuario_datasul.p) — Script interativo de reativação de usuário e ajuste de validade
+- [scripts/manutenção/inativar_usuarios_lista.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/manuten%C3%A7%C3%A3o/inativar_usuarios_lista.p) — Script batch de inativação em lote (82 usuários) e limpeza de e-mail local
+
+
 
 ---
 

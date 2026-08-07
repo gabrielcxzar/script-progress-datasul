@@ -4,11 +4,52 @@ Este arquivo registra todas as alterações, manutenções, refatorações e cat
 
 ---
 
+## [1.3.2] - 2026-08-07 (Antigravity Agent)
+
+### Atualização no Script de Inativação em Lote: usuar_mestre_aux.dtm_ult_atualiz_usuar e Proteção de Histórico
+- **Campo Identificado**: Confirmado o campo `usuar_mestre_aux.dtm_ult_atualiz_usuar` (`emsfnd`), responsável por registrar o timestamp exato de atualização/inativação exibido no programa `sec000aa`.
+- **Validação Inteligente de Status**:
+  - Para usuários **ATIVOS** (`log_inativ = NO`), inativa na data atual com `usuar_mestre_aux.dtm_ult_atualiz_usuar = NOW` e `dat_fim_valid = TODAY`.
+  - Para usuários **JÁ INATIVOS** (`log_inativ = YES`), apenas limpa o e-mail local (`cod_e_mail_local = ""`), **preservando intacta a data de inativação original** no `sec000aa`.
+- **Script Atualizado**: [scripts/manutenção/inativar_usuarios_lista.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/manuten%C3%A7%C3%A3o/inativar_usuarios_lista.p).
+- **Documentos Atualizados**: `docs/TABLES.md`, `docs/QUERIES.md` (M-002), `.ai/MEMORY.md` e `CHANGELOG_AI.md`.
+
+---
+
+## [1.3.1] - 2026-08-07 (Antigravity Agent)
+
+### Novo Script de Manutenção: Inativação em Lote de Lista de Usuários
+- **Script Criado**: [scripts/manutenção/inativar_usuarios_lista.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/manuten%C3%A7%C3%A3o/inativar_usuarios_lista.p).
+- **Regra de Negócio Implementada**:
+  - Inativação em lote de 82 logins especificados pelo usuário.
+  - Limpeza prévia do campo `usuar_mestre.cod_e_mail_local = ""`.
+  - Atualização do status `usuar_mestre_aux.log_inativ = YES` e validade `usuar_mestre.dat_fim_valid = TODAY`.
+  - Seleção dinâmica de ambiente (Produção `Z:\Gnaritas\temp\` vs Teste `V:\temp\`) e geração de log detalhado em CSV (`LOG_INATIVACAO_USUARIOS.csv`).
+- **Base de Conhecimento Atualizada**: `docs/TABLES.md`, `docs/QUERIES.md` (M-002), `docs/EXAMPLES.md` (Exemplo 5), `docs/KNOWLEDGE_MAP.md` e `CHANGELOG_AI.md`.
+
+---
+
+## [1.3.0] - 2026-08-07 (Antigravity Agent)
+
+### Ingestão de Script de Manutenção: Reativação de Usuário Datasul
+- **Script Adicionado**: Ingerido e padronizado o script [scripts/manutenção/reativar_usuario_datasul.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/manuten%C3%A7%C3%A3o/reativar_usuario_datasul.p) (e seu alias `reativar.usuario.datasul.p`) proveniente do diretório Downloads.
+- **Funcionalidade Mapeada**: Script interativo que solicita o código do usuário (`usuar_mestre.cod_usuario`) e permite alterar o status de inativação (`usuar_mestre_aux.log_inativ`) e a data limite de validade de acesso (`usuar_mestre.dat_fim_valid`).
+- **Catalogação na Base de Conhecimento**:
+  - `docs/TABLES.md`: Atualizada contagem de scripts para `usuar_mestre` e `usuar_mestre_aux`, mapeado o campo `dat_fim_valid` e adicionado vínculo ao novo script.
+  - `docs/QUERIES.md`: Adicionada entrada **M-001 — Reativar Usuário Inativo no DataSul**.
+  - `docs/EXAMPLES.md`: Adicionado **Exemplo 4: Reativação Interativa de Usuário Inativo no DataSul**.
+  - `docs/SNIPPETS.md`: Adicionado **Snippet 15: Prompt-for e Update Interativo de Registros (ABL UI Direct)**.
+  - `docs/KNOWLEDGE_MAP.md`: Atualizada a seção `🔐 Segurança / Framework`.
+  - `.ai/MEMORY.md`: Registradas as regras de reativação de usuário e o campo `usuar_mestre.dat_fim_valid`.
+
+---
+
 ## [1.2.0] - 2026-07-28 (Antigravity Agent)
 
 ### Nova UPC: UTB011AA (Manutenção Unidade de Negócio - Financeiro)
 - **Implementação do Campo EMG Code**: Criado o campo Fill-in de 1 caractere (emg_code) ao lado do campo Espécie UN (_ind_espec_unid_negoc).
 - **Integração com Tabela de Extensão**: Mapeado leitura a partir da tabela de extensão es_unid_negoc (campo emg_code), mantendo o padrão da base.
+- **Atualização de Cabeçalho e Deploy**: Atualizado cabeçalho de autoria (Gabriel Cézar) e gerada cópia em C:\temp\upload\upc\upc-utb011aa.p.
 - **Conformidade de Deploy**: Salvo no diretório correto de UPC [upc/upc-utb011aa.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/upc/upc-utb011aa.p).
 
 ---

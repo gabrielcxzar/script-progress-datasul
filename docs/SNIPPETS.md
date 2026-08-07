@@ -22,6 +22,7 @@ Esta biblioteca cataloga os trechos de código Progress ABL mais comuns e reutil
 12. [FUNCTION — Estrutura Básica](#12-function--estrutura-básica)
 13. [Tratamento de Erros](#13-tratamento-de-erros)
 14. [Envio de E-mail via API Datasul (utp/ut-mail.p)](#14-envio-de-e-mail-via-api-datasul-utput-mailp)
+15. [Prompt-for e Update Interativo de Registros (ABL UI Direct)](#15-prompt-for-e-update-interativo-de-registros-abl-ui-direct)
 
 ---
 
@@ -369,4 +370,32 @@ OS-DELETE VALUE(c-arq-corpo).
 ```
 
 *Extraído de*: [docs/EMAILS.md](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/docs/EMAILS.md)
+
+---
+
+## 15. Prompt-for e Update Interativo de Registros (ABL UI Direct)
+
+Padrão para solicitar um código/chave via prompt interativo e realizar a atualização rápida de campos da tabela mestre e complementar através de formulário de 1 coluna em tela Character/GUI:
+
+```progress
+/* 1. Solicita a chave de busca do registro */
+Prompt-for usuar_mestre.cod_usuario
+  With Frame f.
+
+/* 2. Localiza o registro principal */
+Find usuar_mestre
+    Where usuar_mestre.cod_usuario = Input Frame f usuar_mestre.cod_usuario.
+
+/* 3. Localiza a tabela complementar/auxiliar */
+Find usuar_mestre_aux
+     Where usuar_mestre_aux.cod_usuario = Input Frame f usuar_mestre.cod_usuario.
+
+/* 4. Abre o formulário interativo de alteração de campos */
+Update usuar_mestre_aux.log_inativ
+       usuar_mestre.dat_fim_valid
+       With 1 Column Frame f2.
+```
+
+*Extraído de*: [scripts/manutenção/reativar_usuario_datasul.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/manuten%C3%A7%C3%A3o/reativar_usuario_datasul.p)
+
 

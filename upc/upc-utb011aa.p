@@ -2,7 +2,7 @@
 
    AUTOR: ANDRE MORAES
    DATA : 12/2025
-   DESCRICAO: UPC PARA CADASTRAR DIVISAO SAP E EMG CODE.
+   DESCRICAO: UPC PARA CADASTRAR DIVISAO SAP.
    
 */
 
@@ -21,6 +21,12 @@ define new global shared variable ghanLblDivisaoSap_011   as handle no-undo.
 define new global shared variable ghanDesDivisaoSap_011   as handle no-undo.
 Define New Global Shared Variable ghLcod_grp_div_sap_011  As Handle No-undo.
 Define New Global Shared Variable ghcod_grp_div_sap_011   As Handle No-undo.
+
+/*------------------------------------------------------------------------------
+  Modificacao feita por: Gabriel Cezar
+  Descricao: Adiciona o campo Fill-in 'EMG Code:' (1 caractere alfanumerico)
+             em tela ao lado de Especie UN (v_ind_espec_unid_negoc) e le o valor da tabela de extensao es_unid_negoc (emg_code).
+------------------------------------------------------------------------------*/
 Define New Global Shared Variable ghL_emg_code_011        As Handle No-undo.
 Define New Global Shared Variable gh_emg_code_011         As Handle No-undo.
 
@@ -49,32 +55,6 @@ AND p-ind-object = "viewer" THEN DO:
                 when "rt_mold" then do:
                     assign wh-object:height = wh-object:height + 1.50
                            .
-                end.
-                when "v_ind_espec_unid_negoc" or when "ind_espec_unid_negoc" then do:
-                    Create Text ghL_emg_code_011
-                           Assign  Frame        = p-wgh-frame
-                                   Row          = wh-object:Row
-                                   Column       = wh-object:Column + wh-object:Width + 2.00
-                                   Width        = 10
-                                   Format       = "x(10)"
-                                   Height       = 0.88
-                                   Screen-value = "EMG Code:"
-                                   Visible      = True 
-                                   Sensitive    = False.     
-                                
-                    Create Fill-in gh_emg_code_011 
-                           Assign Frame             = p-wgh-frame
-                                  Data-type         = "character":U
-                                  Format            = "x"
-                                  Row               = wh-object:Row
-                                  Column            = ghL_emg_code_011:Column + 10.50
-                                  Side-label-handle = ghL_emg_code_011:Side-label-handle
-                                  Name              = "gh_emg_code_011"
-                                  Width             = 4
-                                  Height            = 0.88
-                                  Tooltip           = "EMG Code"
-                                  Visible           = True
-                                  Sensitive         = False.
                 end.
                 when "cdn_unid_negoc" then do:
                     create text ghanLblDivisaoSap_011
@@ -138,7 +118,35 @@ AND p-ind-object = "viewer" THEN DO:
                                   Tooltip           = "Codigo Devisao Sap"
                                   Visible           = True
                                   Sensitive         = False.
-                    
+                end.
+
+                when "v_ind_espec_unid_negoc" or when "ind_espec_unid_negoc" then do:
+                    if not valid-handle(gh_emg_code_011) then do:
+                        Create Text ghL_emg_code_011
+                               Assign Frame        = p-wgh-frame
+                                      Row          = wh-object:Row
+                                      Column       = wh-object:Column + wh-object:Width + 1.00
+                                      Width        = 8.00
+                                      Format       = "x(9)"
+                                      Height       = 0.88
+                                      Screen-value = "EMG Code:"
+                                      Visible      = True 
+                                      Sensitive    = False.     
+                                    
+                        Create Fill-in gh_emg_code_011 
+                               Assign Frame             = p-wgh-frame
+                                      Data-type         = "character":U
+                                      Format            = "x"
+                                      Row               = wh-object:Row
+                                      Column            = ghL_emg_code_011:Column + 8.20
+                                      Side-label-handle = ghL_emg_code_011:Side-label-handle
+                                      Name              = "gh_emg_code_011"
+                                      Width             = 3.00
+                                      Height            = 0.88
+                                      Tooltip           = "EMG Code"
+                                      Visible           = True
+                                      Sensitive         = False.
+                    end.
                 end.
              end case.
 
@@ -148,7 +156,6 @@ AND p-ind-object = "viewer" THEN DO:
              ASSIGN wh-object = wh-object:FIRST-CHILD.
      END.
 END. 
-
 
 IF  p-ind-event = "display"
 AND p-ind-object = "viewer" THEN DO:
@@ -161,28 +168,27 @@ AND p-ind-object = "viewer" THEN DO:
          IF wh-object:TYPE <> "field-group" THEN DO:
 
              case wh-object:NAME:
-                when "cod_unid_negoc" then do:
+                when "cod_unid_negoc" or when "cdn_unid_negoc" then do:
                     if valid-handle(ghanIdDivisaoSap_011) then do:
                         assign ghanIdDivisaoSap_011 :screen-value = ""
                                ghanDesDivisaoSap_011:screen-value = ""
                                ghcod_grp_div_sap_011:Screen-value = ""
                                .                        
-                    end.
 
-                    if valid-handle(gh_emg_code_011) then
-                        assign gh_emg_code_011:screen-value = "".
+                        if valid-handle(gh_emg_code_011) then
+                            assign gh_emg_code_011:screen-value = "".
 
-                    find first es_unid_negoc
-                        where es_unid_negoc.cod_unid_negoc = wh-object:screen-value
-                        no-lock no-error.
-                    if available es_unid_negoc then do:
-                        if valid-handle(ghanIdDivisaoSap_011) then
+                        find first es_unid_negoc
+                            where es_unid_negoc.cod_unid_negoc = wh-object:screen-value
+                            no-lock no-error.
+                        if available es_unid_negoc then do:
                             assign ghanIdDivisaoSap_011:screen-value  = es_unid_negoc.id_divisao_sap
                                    ghanDesDivisaoSap_011:Screen-value = es_unid_negoc.desc_divisao_sap
                                    ghcod_grp_div_sap_011:Screen-value = es_unid_negoc.cod_grp_div_sap 
                                    .                            
-                        if valid-handle(gh_emg_code_011) then
-                            assign gh_emg_code_011:screen-value = es_unid_negoc.emg_code.
+                            if valid-handle(gh_emg_code_011) then
+                                assign gh_emg_code_011:screen-value = es_unid_negoc.emg_code.
+                        end.
                     end.
                 end.
              end case.

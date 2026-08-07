@@ -13,9 +13,8 @@ Este documento DEVE ser atualizado sempre que novos scripts forem adicionados e 
 ## 📋 Índice de Tabelas
 
 | Tabela | Módulo | Descrição | Fonte |
-| :--- | :--- | :--- | :--- |
-| [usuar_mestre](#usuar_mestre) | Framework / Segurança | Cadastro mestre de usuários do ERP | 2 scripts |
-| [usuar_mestre_aux](#usuar_mestre_aux) | Framework / Segurança | Status e flags do usuário | 2 scripts |
+| :--| [usuar_mestre](#usuar_mestre) | Framework / Segurança | Cadastro mestre de usuários do ERP | 3 scripts |
+| [usuar_mestre_aux](#usuar_mestre_aux) | Framework / Segurança | Status e flags do usuário | 3 scripts |
 | [segur_empres_usuar](#segur_empres_usuar) | Framework / Segurança | Vínculo usuário ↔ empresa (permissão) | 1 script |
 | [usuar_grp_usuar](#usuar_grp_usuar) | Framework / Segurança | Vínculo grupo ↔ usuário ✅ | 1 script |
 | [grp_usuar](#grp_usuar) | Framework / Segurança | Definição dos Grupos de Usuários (código + descrição) ✅ | API-001 |
@@ -54,6 +53,7 @@ Framework / Segurança do Datasul (`emsfnd`) — `(Inferência)`
 | `nom_usuario` | Character | Nome completo do usuário |
 | `cod_e_mail_local` | Character | Endereço de e-mail corporativo/local |
 | `cod_e_mail_celular` | Character | Endereço de e-mail associado ao celular corporativo |
+| `dat_fim_valid` | Date | Data de término da validade do usuário no sistema |
 
 ### Índices
 - **Principal**: Provavelmente indexado por `cod_usuario` — `(Inferência — deduzido pelo padrão de busca com FIRST WHERE cod_usuario = ...)`
@@ -69,13 +69,15 @@ Framework / Segurança do Datasul (`emsfnd`) — `(Inferência)`
 
 - [scripts/consultas/listar_usuarios_ativos_datasul.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/consultas/listar_usuarios_ativos_datasul.p)
 - [scripts/consultas/listar_usuarios_por_empresa_ativos_datasul.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/consultas/listar_usuarios_por_empresa_ativos_datasul.p)
+- [scripts/manutenção/reativar_usuario_datasul.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/manuten%C3%A7%C3%A3o/reativar_usuario_datasul.p) — Script interativo de reativação de usuário e prorrogação de validade
+- [scripts/manutenção/inativar_usuarios_lista.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/manuten%C3%A7%C3%A3o/inativar_usuarios_lista.p) — Inativação em lote de lista de 82 usuários com limpeza de e-mail local
 
 ---
 
 ## <a name="usuar_mestre_aux"></a>🗃️ usuar_mestre_aux
 
 ### Descrição
-Tabela auxiliar complementar ao cadastro de usuários. Controla o status de ativação/inativação de cada usuário no ERP Datasul através do campo lógico `log_inativ`.
+Tabela auxiliar complementar ao cadastro de usuários. Controla o status de ativação/inativação de cada usuário no ERP Datasul através do campo lógico `log_inativ` e a data/hora de alteração em `dtm_ult_atualiz_usuar`.
 
 ### Módulo
 Framework / Segurança do Datasul (`emsfnd`) — `(Inferência)`
@@ -86,6 +88,7 @@ Framework / Segurança do Datasul (`emsfnd`) — `(Inferência)`
 | :--- | :--- | :--- |
 | `cod_usuario` | Character | Código / Login do usuário (chave de vínculo com `usuar_mestre`) |
 | `log_inativ` | Logical (YES/NO) | Indica se o usuário está INATIVO. `NO` = Usuário Ativo. `YES` = Usuário Inativo. |
+| `dtm_ult_atualiz_usuar` | Datetime | Data e hora da última atualização/inativação do usuário (exibido no `sec000aa`) |
 
 ### Índices
 - **Principal**: Provavelmente indexado por `cod_usuario` — `(Inferência)`
@@ -101,6 +104,8 @@ Framework / Segurança do Datasul (`emsfnd`) — `(Inferência)`
 
 - [scripts/consultas/listar_usuarios_ativos_datasul.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/consultas/listar_usuarios_ativos_datasul.p) — **Ponto de entrada da consulta** (`FOR EACH usuar_mestre_aux WHERE log_inativ = NO`)
 - [scripts/consultas/listar_usuarios_por_empresa_ativos_datasul.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/consultas/listar_usuarios_por_empresa_ativos_datasul.p) — Utilizada como filtro confirmatório de status após join por empresa
+- [scripts/manutenção/reativar_usuario_datasul.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/manuten%C3%A7%C3%A3o/reativar_usuario_datasul.p) — Atualização do campo `log_inativ` para `NO` (reativação)
+- [scripts/manutenção/inativar_usuarios_lista.p](file:///c:/Users/Dan13/OneDrive/Documentos/Projetos%20dev/Script%20Progress/scripts/manuten%C3%A7%C3%A3o/inativar_usuarios_lista.p) — Atualização do campo `log_inativ` para `YES` (inativação em lote)
 
 ---
 
